@@ -1,13 +1,17 @@
 // app/en/hub/news/[slug]/page.tsx
 import { news } from "@/data/news";
 
-export default function NewsDetailEn({
+type Params = Promise<{ slug: string }>;
+
+export default async function NewsDetailEn({
   params,
 }: {
-  params: { slug: string };
+  params: Params;
 }) {
-  const item = news.find((n) => n.locale === "en" && n.slug === params.slug);
-  if (!item) return <main className="p-6">Not Found</main>;
+  const { slug } = await params;
+
+  const item = news.find((n) => n.locale === "en" && n.slug === slug);
+  if (!item) return <div className="p-6">Not Found</div>;
 
   return (
     <main className="min-h-screen bg-neutral-900">
@@ -28,13 +32,9 @@ export default function NewsDetailEn({
           </div>
         ) : null}
 
-        {item.excerpt && (
-          <p className="mt-5 text-white/90">{item.excerpt}</p>
-        )}
-
-        <pre className="prose prose-invert mt-6 whitespace-pre-wrap">
+        <div className="prose prose-invert mt-6 whitespace-pre-wrap">
           {item.content}
-        </pre>
+        </div>
       </article>
     </main>
   );
