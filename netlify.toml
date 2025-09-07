@@ -1,5 +1,4 @@
-﻿# netlify.toml (minimal, Next.js 15 + Netlify plugin)
-[build]
+﻿[build]
   command = "npm run build"
   publish = ".next"
 
@@ -8,11 +7,3 @@
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
-
-# (선택) 보안 헤더 — TOML 문법에 맞게 구성
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options = "SAMEORIGIN"
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
