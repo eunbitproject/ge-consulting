@@ -3,19 +3,25 @@ import HubTabs from "@/components/HubTabs";
 import NewsList from "@/components/NewsList";
 import FaqList from "@/components/FaqList";
 
-export default function HubKr({
+type Search = Promise<{ tab?: string }>;
+
+export default async function HubKr({
   searchParams,
 }: {
-  searchParams?: { tab?: string };
+  searchParams?: Search;
 }) {
-  const tab = searchParams?.tab ?? "news";
+  const qs = (await searchParams) ?? {};
+  const tab = qs.tab ?? "news";
+
   return (
     <main className="min-h-screen bg-neutral-900">
-      <div className="mx-auto max-w-7xl px-6 py-10 text-white">
-        <h1 className="text-3xl font-semibold">뉴스</h1>
+      <div className="mx-auto max-w-7xl px-6 py-10">
+        <h1 className="text-3xl font-semibold text-white">자료실</h1>
+
         <div className="mt-6">
           <HubTabs locale="kr" />
         </div>
+
         <div className="mt-6">
           {tab === "faq" ? <FaqList locale="kr" /> : <NewsList locale="kr" />}
         </div>
@@ -23,4 +29,3 @@ export default function HubKr({
     </main>
   );
 }
-
