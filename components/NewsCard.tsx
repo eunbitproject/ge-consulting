@@ -1,4 +1,4 @@
-import Link from "next/link";
+// components/NewsCard.tsx
 import type { NewsItem } from "@/data/news";
 
 export default function NewsCard({
@@ -9,25 +9,30 @@ export default function NewsCard({
   locale: "kr" | "en";
 }) {
   return (
-    <Link
-      href={`/${locale}/hub/news/${item.slug}`}
-      className="block rounded-2xl border border-white/15 bg-white/5 p-4 hover:bg-white/10"
-    >
-      <div className="text-base font-semibold text-white">{item.title}</div>
-      <div className="mt-1 text-xs text-white/70">{item.date}</div>
-      <p className="mt-2 text-sm text-white/90">{item.excerpt}</p>
+    <article className="rounded-xl border border-neutral-200 bg-white p-4">
+      <a
+        href={`/${locale}/hub/news/${item.slug}`}
+        className="text-lg font-semibold hover:underline"
+      >
+        {item.title}
+      </a>
+      <div className="mt-1 text-xs text-neutral-500">{item.date}</div>
+
       {item.tags?.length ? (
-        <div className="mt-3 flex flex-wrap gap-2">
+        <div className="mt-2 flex flex-wrap gap-2">
           {item.tags.map((t) => (
             <span
               key={t}
-              className="rounded-full bg-white/10 px-2 py-1 text-xs text-white"
+              className="rounded-full border border-neutral-200 px-2 py-0.5 text-xs"
             >
               #{t}
             </span>
           ))}
         </div>
       ) : null}
-    </Link>
+
+      <p className="mt-3 text-sm text-neutral-700">{item.excerpt}</p>
+    </article>
   );
 }
+

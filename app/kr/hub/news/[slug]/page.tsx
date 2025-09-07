@@ -1,34 +1,13 @@
+// app/kr/hub/news/[slug]/page.tsx
 import { news } from "@/data/news";
 
-type Params = { slug: string };
-
-export async function generateMetadata(
-  { params }: { params: Promise<Params> }
-) {
-  const { slug } = await params;
-  const item = news.find((n) => n.locale === "kr" && n.slug === slug);
-  return {
-    title: item ? item.title : "뉴스 | GE Consulting",
-  };
-}
-
-export default async function NewsDetailKr(
-  { params }: { params: Promise<Params> }
-) {
-  const { slug } = await params;
-
-  const item = news.find(
-    (n) => n.locale === "kr" && n.slug === slug
-  );
-  if (!item) {
-    return (
-      <main className="min-h-screen bg-neutral-900">
-        <article className="mx-auto max-w-3xl px-6 py-10 text-white">
-          Not Found
-        </article>
-      </main>
-    );
-  }
+export default function NewsDetailKr({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const item = news.find((n) => n.locale === "kr" && n.slug === params.slug);
+  if (!item) return <main className="p-6">Not Found</main>;
 
   return (
     <main className="min-h-screen bg-neutral-900">
@@ -49,9 +28,13 @@ export default async function NewsDetailKr(
           </div>
         ) : null}
 
-        <div className="prose prose-invert mt-6 whitespace-pre-wrap">
+        {item.excerpt && (
+          <p className="mt-5 text-white/90">{item.excerpt}</p>
+        )}
+
+        <pre className="prose prose-invert mt-6 whitespace-pre-wrap">
           {item.content}
-        </div>
+        </pre>
       </article>
     </main>
   );
